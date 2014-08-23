@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C03CE7A9-35F3-4829-951C-A000841862E8}</ProjectGuid>
+    <ProjectGuid>{8F5DC36B-7FC4-491F-BE57-64AC665F4F0D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReleaseStats.Tests</RootNamespace>
-    <AssemblyName>ReleaseStats.Tests</AssemblyName>
+    <RootNamespace>ReleaseStats.Core</RootNamespace>
+    <AssemblyName>ReleaseStats.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,12 +28,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,17 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GitHubProviderTests.cs" />
+    <Compile Include="GitHubStatsProvider.cs" />
+    <Compile Include="IStatsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ReleaseStats.Core\ReleaseStats.Core.csproj">
-      <Project>{8F5DC36B-7FC4-491F-BE57-64AC665F4F0D}</Project>
-      <Name>ReleaseStats.Core</Name>
-    </ProjectReference>
+    <Compile Include="Release.cs" />
+    <Compile Include="ReleaseStatistics.cs" />
+    <Compile Include="ReleaseStatsFactory.cs" />
+    <Compile Include="ReleaseStatsRunner.cs" />
+    <Compile Include="RunnerConfiguration.cs" />
+    <Compile Include="SemVer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
