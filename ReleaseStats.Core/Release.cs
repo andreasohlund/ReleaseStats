@@ -1,6 +1,8 @@
 namespace ReleaseStats
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class Release : IEquatable<Release>
     {
@@ -50,10 +52,17 @@ namespace ReleaseStats
         }
 
         public SemVer Version { get; private set; }
+        public List<ReleaseProperty> Properties { get; private set; }
 
         public Release(SemVer version)
         {
             Version = version;
+            Properties = new List<ReleaseProperty>();
+        }
+
+        public ReleaseProperty Property<T>()
+        {
+            return Properties.Single(p => p.GetType() == typeof(T));
         }
     }
 }

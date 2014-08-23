@@ -46,7 +46,9 @@
     <Compile Include="Providers\GitHub\GitHubStatsProvider.cs" />
     <Compile Include="IStatsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\GitHub\ReleaseDate.cs" />
     <Compile Include="Release.cs" />
+    <Compile Include="ReleaseProperty.cs" />
     <Compile Include="ReleaseStatistics.cs" />
     <Compile Include="ReleaseStatsFactory.cs" />
     <Compile Include="ReleaseStatsRunner.cs" />

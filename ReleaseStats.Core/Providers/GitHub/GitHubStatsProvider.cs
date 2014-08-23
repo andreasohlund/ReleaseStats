@@ -41,17 +41,24 @@
                     return false;
                 }
 
+                if (!ghRelease.PublishedAt.HasValue)
+                {
+                    return false;
+                }
+
                 var versionString = ghRelease.TagName;
 
                 release = new Release(new SemVer(versionString));
 
+                release.Properties.Add(new ReleaseDate(ghRelease.PublishedAt.Value));
+
                 return true;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                Console.Out.WriteLine("Bad release: " + ghRelease.TagName);
+                Console.Out.WriteLine("Bad release: " + ghRelease.TagName + " " + ex); 
                 return false;
             }
         }

@@ -19,7 +19,7 @@ public class GitHubProviderTests
 
             Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
 
-            result.Releases.ForEach(r=>Console.Out.WriteLine(r.Version));
+            result.Releases.ForEach(r=>Console.Out.WriteLine(r.Version + " - " + r.Property<ReleaseDate>()));
         }
     }
 }
