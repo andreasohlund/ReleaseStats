@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ReleaseStats;
+using ReleaseStats.Providers;
 
 [TestFixture, Explicit("Long running")]
 public class GitHubProviderTests
@@ -9,7 +10,7 @@ public class GitHubProviderTests
     {
         var config = new RunnerConfiguration();
 
-        config.AddProvider(new GitHubStatsProvider());
+        config.AddProvider(new GitHubStatsProvider("Particular"));
 
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
