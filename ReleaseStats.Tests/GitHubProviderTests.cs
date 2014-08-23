@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ReleaseStats;
 using ReleaseStats.Providers;
 
@@ -17,6 +18,8 @@ public class GitHubProviderTests
             var result = releaseStatsRunner.GenerateStatistics();
 
             Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
+
+            result.Releases.ForEach(r=>Console.Out.WriteLine(r.Version));
         }
     }
 }

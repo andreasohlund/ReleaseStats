@@ -13,6 +13,11 @@
             Patch = int.Parse(parts[2]);
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0}.{1}.{2}", Major, Minor, Patch);
+        }
+
         public bool Equals(SemVer other)
         {
             if (other == null)
