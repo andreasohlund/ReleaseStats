@@ -25,6 +25,8 @@ namespace ReleaseStats
 
             result.Releases.AddRange(stats);
 
+            runnerConfiguration.PropertyEnrichers.ForEach(e => e.Process(result));
+
             return result;
         }
     }

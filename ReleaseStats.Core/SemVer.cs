@@ -66,5 +66,19 @@
         }
 
 
+        public bool IsMajorRelease
+        {
+            get { return Minor == 0 && Patch == 0; }
+        }
+
+        public bool IsMinorRelease
+        {
+            get { return Patch == 0 && Minor > 0; }
+        }
+
+        public bool IsPatchRelease
+        {
+            get { return Patch > 0; }
+        }
     }
 }

@@ -1,4 +1,4 @@
-namespace ReleaseStats.Providers
+namespace ReleaseStats.ReleaseProperties
 {
     using System;
 

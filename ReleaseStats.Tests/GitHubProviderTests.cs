@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using ReleaseStats;
-using ReleaseStats.Providers;
+using ReleaseStats.PropertyEnrichers;
+using ReleaseStats.Providers.GitHub;
+using ReleaseStats.ReleaseProperties;
 
 [TestFixture, Explicit("Long running")]
 public class GitHubProviderTests
@@ -13,14 +17,36 @@ public class GitHubProviderTests
 
         config.AddProvider(new GitHubStatsProvider("Particular"));
 
+        config.AddEnricher(new ReleaseHierarchyEnricher());
+
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
             var result = releaseStatsRunner.GenerateStatistics();
 
             Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
 
-            result.Releases.ForEach(r=>Console.Out.WriteLine(r.Version + " - " + r.Property<ReleaseDate>()));
+            var groupedByOriginalRelease = result.Releases.GroupBy(r => r.Property<ReleaseHierarchy>().OriginalRelease)
+                .OrderByDescending(g=>g.Key.Property<ReleaseDate>().ReleasedAt)
+                .ToList();
+
+            groupedByOriginalRelease.ForEach(PrintRelease);
         }
+    }
+
+    static void PrintRelease(IGrouping<Release, Release> grouping)
+    {
+        var sb = new StringBuilder();
+
+        sb.Append(grouping.Key.Version);
+
+        if (grouping.Count()>1)
+        {
+            sb.AppendFormat("({0})", string.Join(",", grouping.Where(r=>r!=grouping.Key).Select(patch => patch.Version)));
+        }
+
+        sb.AppendFormat(" - {0}", grouping.Key.Property<ReleaseDate>());
+
+        Console.Out.WriteLine(sb);
     }
 }
 

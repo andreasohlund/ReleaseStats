@@ -3,6 +3,7 @@ namespace ReleaseStats
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using ReleaseStats.ReleaseProperties;
 
     public class Release : IEquatable<Release>
     {
@@ -54,15 +55,24 @@ namespace ReleaseStats
         public SemVer Version { get; private set; }
         public List<ReleaseProperty> Properties { get; private set; }
 
+        public Release(string versionString):this(new SemVer(versionString))
+        {
+            
+        }
         public Release(SemVer version)
         {
             Version = version;
             Properties = new List<ReleaseProperty>();
         }
 
-        public ReleaseProperty Property<T>()
+        public T Property<T>() where T:ReleaseProperty
         {
-            return Properties.Single(p => p.GetType() == typeof(T));
+            return (T)Properties.Single(p => p.GetType() == typeof(T));
+        }
+
+        public override string ToString()
+        {
+            return Version.ToString();
         }
     }
 }

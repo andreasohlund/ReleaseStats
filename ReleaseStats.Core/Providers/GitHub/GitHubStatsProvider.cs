@@ -1,10 +1,11 @@
-﻿namespace ReleaseStats.Providers
+﻿namespace ReleaseStats.Providers.GitHub
 {
     using System;
     using System.Collections.Generic;
     using System.Net;
     using Octokit;
     using Octokit.Internal;
+    using ReleaseStats.ReleaseProperties;
     using Release = ReleaseStats.Release;
 
     public class GitHubStatsProvider : IStatsProvider

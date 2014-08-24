@@ -7,7 +7,7 @@
     <ProjectGuid>{8F5DC36B-7FC4-491F-BE57-64AC665F4F0D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReleaseStats.Core</RootNamespace>
+    <RootNamespace>ReleaseStats</RootNamespace>
     <AssemblyName>ReleaseStats.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,12 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PropertyEnrichers\PropertyEnricher.cs" />
+    <Compile Include="PropertyEnrichers\ReleaseHierarchyEnricher.cs" />
     <Compile Include="Providers\GitHub\GitHubStatsProvider.cs" />
     <Compile Include="IStatsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\GitHub\ReleaseDate.cs" />
+    <Compile Include="ReleaseProperties\ReleaseDate.cs" />
     <Compile Include="Release.cs" />
-    <Compile Include="ReleaseProperty.cs" />
+    <Compile Include="ReleaseHierarchy.cs" />
+    <Compile Include="ReleaseProperties\ReleaseProperty.cs" />
     <Compile Include="ReleaseStatistics.cs" />
     <Compile Include="ReleaseStatsFactory.cs" />
     <Compile Include="ReleaseStatsRunner.cs" />
@@ -58,6 +61,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
