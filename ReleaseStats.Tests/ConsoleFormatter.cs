@@ -6,18 +6,20 @@ using ReleaseStats.ReleaseProperties;
 
 class ConsoleFormatter
 {
-    public static void PrintRelease(IGrouping<Release, Release> grouping)
+    public static void PrintRelease(Release release)
     {
         var sb = new StringBuilder();
 
-        sb.Append(grouping.Key.Version);
+        sb.Append(release.Version);
 
-        if (grouping.Count() > 1)
+        var hierarchy = release.Property<ReleaseHierarchy>();
+
+        if (hierarchy.Patches.Any())
         {
-            sb.AppendFormat("({0})", String.Join("|", grouping.Where(r => r != grouping.Key).Select(patch => patch.Version)));
+            sb.AppendFormat("({0})", String.Join("|", hierarchy.Patches.Select(r=>r.Version)));
         }
 
-        sb.AppendFormat(" - {0}", grouping.Key.Property<ReleaseDate>());
+        sb.AppendFormat(" - {0}", release.Property<ReleaseDate>());
 
         Console.Out.WriteLine(sb);
     }

@@ -54,8 +54,6 @@ namespace ReleaseStats.Providers.NuGet
 
                 var publishedAt = properties.SelectSingleNode("d:Published", _manager).InnerText;
 
-                ;
-
                 yield return new RemoteNuget(id, name, version, DateTime.Parse(publishedAt));
             }
         }

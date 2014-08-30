@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ReleaseStats;
 using ReleaseStats.Providers.GitHub;
-using ReleaseStats.ReleaseProperties;
 
 [TestFixture, Explicit("Long running")]
 public class GitHubProviderTests
@@ -20,11 +19,9 @@ public class GitHubProviderTests
 
             Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
 
-            var groupedByOriginalRelease = result.Releases.GroupBy(r => r.Property<ReleaseHierarchy>().OriginalRelease)
-                .OrderByDescending(g=>g.Key.Property<ReleaseDate>().ReleasedAt)
-                .ToList();
-
-            groupedByOriginalRelease.ForEach(ConsoleFormatter.PrintRelease);
+            result.Releases.Where(r=>!r.Version.IsPatchRelease)
+                .ToList()
+                .ForEach(ConsoleFormatter.PrintRelease);
         }
     }
 }

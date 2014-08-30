@@ -1,6 +1,7 @@
 namespace ReleaseStats
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class ReleaseStatsRunner : IDisposable
@@ -19,8 +20,7 @@ namespace ReleaseStats
 
         public ReleaseStatistics GenerateStatistics(string project)
         {
-            var result = new ReleaseStatistics();
-            
+            var releases = new List<Release>();
             foreach (var provider in runnerConfiguration.providers)
             {
                 var providerResult = provider.FetchStats(project);
@@ -36,8 +36,12 @@ namespace ReleaseStats
                 {
                     throw new Exception("Validation errors found for provider: " + provider.GetType().Name + Environment.NewLine + string.Join(Environment.NewLine,validationErrors));
                 }
-                result.Releases.AddRange(providerResult);
+                releases.AddRange(providerResult);
             }
+
+            var result = new ReleaseStatistics();
+            
+            result.Releases.AddRange(releases.OrderByDescending(r => r.Version));
           
             runnerConfiguration.PropertyEnrichers.ForEach(e => e.Process(result));
 

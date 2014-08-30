@@ -47,6 +47,16 @@
             Assert.AreEqual(new Release("1.1.0"), release.Property<ReleaseHierarchy>().OriginalRelease);
         }
 
+        [Test]
+        public void OrderPatchReleasesBySemver()
+        {
+            var release = new Release("1.0.0");
+
+            Enrich(release, "1.0.2", "1.0.1", "1.0.4", "1.0.3");
+
+            Assert.AreEqual(new Release("1.0.1"), release.Property<ReleaseHierarchy>().Patches.First());
+        }
+
         void Enrich(Release release, params string[] otherVersions)
         {
             var enricher = new ReleaseHierarchyEnricher();

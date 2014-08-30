@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class SemVer : IEquatable<SemVer>
+    public class SemVer : IEquatable<SemVer>,IComparable<SemVer>
     {
         public SemVer(int major,int minor,int patch)
         {
@@ -17,6 +17,37 @@
             Major = int.Parse(parts[0]);
             Minor = int.Parse(parts[1]);
             Patch = int.Parse(parts[2]);
+        }
+
+        public int CompareTo(SemVer other)
+        {
+            if (Major < other.Major)
+            {
+                return -1;
+            }
+            if (Major > other.Major)
+            {
+                return 1;
+            }
+
+            if (Minor < other.Minor)
+            {
+                return -1;
+            }
+            if (Minor > other.Minor)
+            {
+                return 1;
+            } 
+            
+            if (Patch < other.Patch)
+            {
+                return -1;
+            }
+            if (Patch > other.Patch)
+            {
+                return 1;
+            }
+            return 0;
         }
 
         public override string ToString()
@@ -89,6 +120,21 @@
         public bool IsPatchRelease
         {
             get { return Patch > 0; }
+        }
+
+        public bool IsPatchFor(SemVer version)
+        {
+            if (version.IsPatchRelease)
+            {
+                throw new Exception("Patches can't be patched: " + version);
+            }
+
+            if (!IsPatchRelease)
+            {
+                return false;
+            }
+
+            return Major == version.Major && Minor == version.Minor;
         }
     }
 }

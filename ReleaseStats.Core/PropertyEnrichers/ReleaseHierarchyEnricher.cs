@@ -10,24 +10,21 @@ namespace ReleaseStats.PropertyEnrichers
         {
             foreach (var release in stats.Releases)
             {
-                var hierarchy = new ReleaseHierarchy();
-                Release originalRelease;
-
-                if (TryFindOriginalRelease(release, stats.Releases, out originalRelease))
-                {
-                    hierarchy.OriginalRelease = originalRelease;
-                }
+                var hierarchy = CreateReleaseHierarchy(release, stats.Releases);
 
                 release.Properties.Add(hierarchy);
             }   
         }
 
-        bool  TryFindOriginalRelease(Release release, IEnumerable<Release> releases,out Release originalRelease)
+        ReleaseHierarchy CreateReleaseHierarchy(Release release, IEnumerable<Release> releases)
         {
             if (release.Version.IsMajorRelease || release.Version.IsMinorRelease)
             {
-                originalRelease = release;
-                return true;
+                var patches = releases.Where(r => r.Version.IsPatchFor(release.Version))
+                    .OrderBy(r=>r.Version)                    
+                    .ToList();
+
+                return new ReleaseHierarchy(release,patches);
             }
 
             var potentialOriginalRelease = releases.SingleOrDefault(original =>
@@ -37,13 +34,10 @@ namespace ReleaseStats.PropertyEnrichers
 
             if (potentialOriginalRelease != null)
             {
-                originalRelease = potentialOriginalRelease;
-                return true;            
+                return new ReleaseHierarchy(potentialOriginalRelease);
             }
-            else
-            {
-                throw new Exception("No original release could be found for: " + release);
-            }
+            
+            throw new Exception("No original release could be found for: " + release);
         }
     }
 }
