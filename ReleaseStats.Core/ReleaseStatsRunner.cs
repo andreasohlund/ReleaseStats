@@ -17,13 +17,13 @@ namespace ReleaseStats
 
         }
 
-        public ReleaseStatistics GenerateStatistics()
+        public ReleaseStatistics GenerateStatistics(string project)
         {
             var result = new ReleaseStatistics();
             
             foreach (var provider in runnerConfiguration.providers)
             {
-                var providerResult = provider.FetchStats("NServiceBus");
+                var providerResult = provider.FetchStats(project);
 
                 var validationErrors = runnerConfiguration.providerValidators.SelectMany(v=>v.Validate(providerResult)).ToList();
 

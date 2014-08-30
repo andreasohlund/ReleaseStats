@@ -16,7 +16,7 @@ public class GitHubProviderTests
      
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
-            var result = releaseStatsRunner.GenerateStatistics();
+            var result = releaseStatsRunner.GenerateStatistics("NServiceBus");
 
             Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
 
