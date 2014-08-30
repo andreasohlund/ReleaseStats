@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
-using ReleaseStats.PropertyEnrichers;
 using ReleaseStats.Providers.NuGet;
 using ReleaseStats.ReleaseProperties;
-using ReleaseStats.Validators;
 
 [TestFixture, Explicit("Long running")]
 public class NuGetProviderTests
@@ -12,13 +10,10 @@ public class NuGetProviderTests
     [Test]
     public void ReturnAllNServiceBusReleases()
     {
-        var config = new RunnerConfiguration();
+        var config = RunnerConfiguration.Default;
 
         config.AddProvider(new NuGetStatsProvider());
-        config.AddProviderValidator(new DuplicateVersionsValidator());
-
-        config.AddEnricher(new ReleaseHierarchyEnricher());
-
+     
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
             var result = releaseStatsRunner.GenerateStatistics();

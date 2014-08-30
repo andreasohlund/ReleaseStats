@@ -2,6 +2,7 @@ namespace ReleaseStats
 {
     using System.Collections.Generic;
     using ReleaseStats.PropertyEnrichers;
+    using ReleaseStats.Providers.NuGet;
     using ReleaseStats.Validators;
 
     public class RunnerConfiguration
@@ -21,6 +22,20 @@ namespace ReleaseStats
         public void AddEnricher(PropertyEnricher enricher)
         {
             PropertyEnrichers.Add(enricher);
+        }
+
+        public static RunnerConfiguration Default
+        {
+            get
+            {
+                var config = new RunnerConfiguration();
+
+                config.AddProviderValidator(new DuplicateVersionsValidator());
+
+                config.AddEnricher(new ReleaseHierarchyEnricher());
+
+                return config;
+            }
         }
     }
 }

@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="ConsoleFormatter.cs" />
     <Compile Include="DuplicateVersionsValidatorTests.cs" />
-    <Compile Include="GitHubProviderTests - Copy.cs" />
+    <Compile Include="GitHubProviderTests.cs" />
     <Compile Include="NuGetProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseHierarchyEnricherTests.cs" />
