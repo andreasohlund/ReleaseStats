@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
 using ReleaseStats.PropertyEnrichers;
 using ReleaseStats.Providers.GitHub;
 using ReleaseStats.ReleaseProperties;
+using ReleaseStats.Validators;
 
 [TestFixture, Explicit("Long running")]
 public class GitHubProviderTests
@@ -16,6 +15,8 @@ public class GitHubProviderTests
         var config = new RunnerConfiguration();
 
         config.AddProvider(new GitHubStatsProvider("Particular"));
+        config.AddProviderValidator(new DuplicateVersionsValidator());
+
 
         config.AddEnricher(new ReleaseHierarchyEnricher());
 
@@ -29,24 +30,8 @@ public class GitHubProviderTests
                 .OrderByDescending(g=>g.Key.Property<ReleaseDate>().ReleasedAt)
                 .ToList();
 
-            groupedByOriginalRelease.ForEach(PrintRelease);
+            groupedByOriginalRelease.ForEach(ConsoleFormatter.PrintRelease);
         }
-    }
-
-    static void PrintRelease(IGrouping<Release, Release> grouping)
-    {
-        var sb = new StringBuilder();
-
-        sb.Append(grouping.Key.Version);
-
-        if (grouping.Count()>1)
-        {
-            sb.AppendFormat("({0})", string.Join(",", grouping.Where(r=>r!=grouping.Key).Select(patch => patch.Version)));
-        }
-
-        sb.AppendFormat(" - {0}", grouping.Key.Property<ReleaseDate>());
-
-        Console.Out.WriteLine(sb);
     }
 }
 

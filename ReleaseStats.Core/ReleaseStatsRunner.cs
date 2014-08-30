@@ -19,12 +19,21 @@ namespace ReleaseStats
 
         public ReleaseStatistics GenerateStatistics()
         {
-            var stats = runnerConfiguration.providers.SelectMany(provider => provider.FetchStats("NServiceBus"))
-                .ToList();
             var result = new ReleaseStatistics();
+            
+            foreach (var provider in runnerConfiguration.providers)
+            {
+                var providerResult = provider.FetchStats("NServiceBus");
 
-            result.Releases.AddRange(stats);
+                var validationErrors = runnerConfiguration.providerValidators.SelectMany(v=>v.Validate(providerResult)).ToList();
 
+                if (validationErrors.Any())
+                {
+                    throw new Exception("Validation errors found for provider: " + provider.GetType().Name + Environment.NewLine + string.Join(Environment.NewLine,validationErrors));
+                }
+                result.Releases.AddRange(providerResult);
+            }
+          
             runnerConfiguration.PropertyEnrichers.ForEach(e => e.Process(result));
 
             return result;

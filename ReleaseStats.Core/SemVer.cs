@@ -4,6 +4,12 @@
 
     public class SemVer : IEquatable<SemVer>
     {
+        public SemVer(int major,int minor,int patch)
+        {
+            Major = major;
+            Minor = minor;
+            Patch = patch;
+        }
         public SemVer(string versionString)
         {
             var parts = versionString.Split('.');
@@ -65,6 +71,10 @@
             return !Equals(left, right);
         }
 
+        public static implicit operator SemVer(string version)
+        {
+            return new SemVer(version);
+        }
 
         public bool IsMajorRelease
         {

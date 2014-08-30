@@ -48,6 +48,9 @@
     <Compile Include="Providers\GitHub\GitHubStatsProvider.cs" />
     <Compile Include="IStatsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\NuGet\NuGetStatsProvider.cs" />
+    <Compile Include="Providers\NuGet\NugetXmlFeed.cs" />
+    <Compile Include="Providers\NuGet\RemoteNuget.cs" />
     <Compile Include="ReleaseProperties\ReleaseDate.cs" />
     <Compile Include="Release.cs" />
     <Compile Include="ReleaseHierarchy.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="ReleaseStatsRunner.cs" />
     <Compile Include="RunnerConfiguration.cs" />
     <Compile Include="SemVer.cs" />
+    <Compile Include="Validators\DuplicateVersionsValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
