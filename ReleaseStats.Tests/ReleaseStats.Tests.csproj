@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleFormatter.cs" />
+    <Compile Include="ConsolidateDuplicateReleasesCleanerTests.cs" />
     <Compile Include="DuplicateVersionsValidatorTests.cs" />
     <Compile Include="GitHubProviderTests.cs" />
     <Compile Include="NuGetProviderTests.cs" />

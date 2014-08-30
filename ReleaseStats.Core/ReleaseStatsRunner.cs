@@ -25,6 +25,11 @@ namespace ReleaseStats
             {
                 var providerResult = provider.FetchStats(project);
 
+                foreach (var cleaner in runnerConfiguration.releaseCleaners)
+                {
+                    providerResult = cleaner.Clean(providerResult);
+                }
+
                 var validationErrors = runnerConfiguration.providerValidators.SelectMany(v=>v.Validate(providerResult)).ToList();
 
                 if (validationErrors.Any())

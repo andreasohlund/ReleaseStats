@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
+using ReleaseStats.Cleaners;
 using ReleaseStats.Providers.NuGet;
 using ReleaseStats.ReleaseProperties;
 
@@ -13,6 +14,7 @@ public class NuGetProviderTests
         var config = RunnerConfiguration.Default;
 
         config.AddProvider(new NuGetStatsProvider());
+        config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
      
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
