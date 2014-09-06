@@ -19,7 +19,7 @@ public class NuGetProviderTests
         {
             var result = releaseStatsRunner.GenerateStatistics("NServiceBus");
 
-            Assert.Contains(new Release(new SemVer("4.6.3")), result.Releases);
+            Assert.Contains(new Release("4.6.3"), result.Releases);
 
             result.Releases.Where(r => !r.Version.IsPatchRelease)
      .ToList()
