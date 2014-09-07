@@ -23,11 +23,11 @@ namespace ReleaseStats
             var releases = new List<Release>();
             foreach (var provider in runnerConfiguration.providers)
             {
-                var providerResult = provider.FetchStats(project);
+                var providerResult = provider.FetchStats(project).ToList();
 
                 foreach (var cleaner in runnerConfiguration.releaseCleaners)
                 {
-                    providerResult = cleaner.Clean(providerResult);
+                    providerResult = cleaner.Clean(providerResult).ToList();
                 }
 
                 var validationErrors = runnerConfiguration.providerValidators.SelectMany(v=>v.Validate(providerResult)).ToList();

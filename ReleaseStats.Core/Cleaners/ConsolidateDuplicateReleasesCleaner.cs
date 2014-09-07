@@ -10,8 +10,9 @@ namespace ReleaseStats.Cleaners
         public IEnumerable<Release> Clean(IEnumerable<Release> releases)
         {
             return releases.GroupBy(r => r.Version)
-                .Select(g => g.OrderBy(r=>r.Property<ReleaseDate>().ReleasedAt).First())
+                .Select(g => g.Where(r => r.Property<ReleaseDate>().ReleasedAt.Year>1950)
+                    .OrderBy(r => r.Property<ReleaseDate>().ReleasedAt).First())
                 .ToList();
         }
-    }
+    } 
 }
