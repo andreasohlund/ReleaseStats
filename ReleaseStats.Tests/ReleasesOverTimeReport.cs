@@ -22,7 +22,7 @@ public class ReleasesOverTimeReport
 
         var config = RunnerConfiguration.Default;
 
-        config.AddProvider(new NuGetStatsProvider());
+        config.AddStatsProvider(new NuGetStatsProvider());
         config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
 
         var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config);

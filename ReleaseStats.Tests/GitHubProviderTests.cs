@@ -11,7 +11,7 @@ public class GitHubProviderTests
     {
         var config = RunnerConfiguration.Default;
 
-        config.AddProvider(new GitHubStatsProvider("Particular"));
+        config.AddStatsProvider(new GitHubStatsProvider("Particular"));
      
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
@@ -22,6 +22,23 @@ public class GitHubProviderTests
             result.Releases.Where(r=>!r.Version.IsPatchRelease)
                 .ToList()
                 .ForEach(ConsoleFormatter.PrintRelease);
+        }
+    }
+
+    [Test]
+    public void ListAllNServiceBusRelatedProjects()
+    {
+        var config = RunnerConfiguration.Default;
+
+        config.AddStatsProvider(new GitHubStatsProvider("Particular"));
+        config.AddProjectProvider(new GitHubProjectProvider("Particular"));
+
+        using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
+        {
+            var result = releaseStatsRunner.GenerateMultiple("NServiceBus*");
+            var foundProjects = result.Select(r => r.Project.Name).ToList();
+           
+            Assert.Contains("NServiceBus", foundProjects);
         }
     }
 }

@@ -39,13 +39,18 @@ namespace ReleaseStats
                 releases.AddRange(providerResult);
             }
 
-            var result = new ReleaseStatistics();
+            var result = new ReleaseStatistics(new Project(project));
             
             result.Releases.AddRange(releases.OrderByDescending(r => r.Version));
           
             runnerConfiguration.PropertyEnrichers.ForEach(e => e.Process(result));
 
             return result;
+        }
+
+        public IEnumerable<ReleaseStatistics> GenerateMultiple(string filter)
+        {
+            yield return GenerateStatistics("NServiceBus");
         }
     }
 }

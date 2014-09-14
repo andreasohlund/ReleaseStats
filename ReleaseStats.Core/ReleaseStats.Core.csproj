@@ -47,9 +47,13 @@
     <Compile Include="IReleaseCleaner.cs" />
     <Compile Include="PropertyEnrichers\PropertyEnricher.cs" />
     <Compile Include="PropertyEnrichers\ReleaseHierarchyEnricher.cs" />
+    <Compile Include="Providers\GitHub\GitHubClientBuilder.cs" />
+    <Compile Include="Providers\GitHub\GitHubHelper.cs" />
+    <Compile Include="Providers\GitHub\GitHubProjectProvider.cs" />
     <Compile Include="Providers\GitHub\GitHubStatsProvider.cs" />
     <Compile Include="IStatsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\GitHub\IListProjects.cs" />
     <Compile Include="Providers\NuGet\NuGetStatsProvider.cs" />
     <Compile Include="Providers\NuGet\NugetXmlFeed.cs" />
     <Compile Include="Providers\NuGet\RemoteNuget.cs" />

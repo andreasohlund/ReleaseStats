@@ -61,7 +61,7 @@
         {
             var enricher = new ReleaseHierarchyEnricher();
 
-            var stats = new ReleaseStatistics();
+            var stats = new ReleaseStatistics(new Project("test"));
           
             stats.Releases.Add(release);
             stats.Releases.AddRange(otherVersions.Select(v=>new Release(v)));

@@ -12,7 +12,7 @@ public class NuGetProviderTests
     {
         var config = RunnerConfiguration.Default;
 
-        config.AddProvider(new NuGetStatsProvider());
+        config.AddStatsProvider(new NuGetStatsProvider());
         config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
 
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))

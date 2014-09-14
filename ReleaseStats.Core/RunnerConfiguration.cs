@@ -2,6 +2,7 @@ namespace ReleaseStats
 {
     using System.Collections.Generic;
     using ReleaseStats.PropertyEnrichers;
+    using ReleaseStats.Providers.GitHub;
     using ReleaseStats.Validators;
 
     public class RunnerConfiguration
@@ -12,7 +13,7 @@ namespace ReleaseStats
 
 
         internal List<IReleaseCleaner> releaseCleaners = new List<IReleaseCleaner>(); 
-        public void AddProvider(IStatsProvider statsProvider)
+        public void AddStatsProvider(IStatsProvider statsProvider)
         {
             providers.Add(statsProvider);
         }
@@ -43,6 +44,11 @@ namespace ReleaseStats
         public void AddCleaner(IReleaseCleaner releaseCleaner)
         {
             releaseCleaners.Add(releaseCleaner);
+        }
+
+        public void AddProjectProvider(IListProjects listProjectsProvider)
+        {
+            
         }
     }
 }
