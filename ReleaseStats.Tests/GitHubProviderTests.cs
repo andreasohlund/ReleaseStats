@@ -37,7 +37,7 @@ public class GitHubProviderTests
 
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
-            var result = releaseStatsRunner.GenerateMultiple("*");
+            var result = releaseStatsRunner.GenerateMultiple("NServiceBus*");
 
             var project = result.Single(p=>p.Name == "NServiceBus");
 
@@ -48,6 +48,7 @@ public class GitHubProviderTests
             PrintProjects(result);
         }
     }
+
 
     void PrintProjects(IEnumerable<Project> projects)
     {

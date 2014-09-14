@@ -4,6 +4,6 @@
 
     public interface IStatsProvider
     {
-        IEnumerable<Release> FetchStats(string project);
+        IEnumerable<Release> FetchStats(Project project);
     }
 }

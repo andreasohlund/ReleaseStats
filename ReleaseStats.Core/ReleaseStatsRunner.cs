@@ -20,6 +20,10 @@ namespace ReleaseStats
 
         public ReleaseStatistics GenerateStatistics(string project)
         {
+            return GenerateStatistics(new Project(project));
+        }
+        ReleaseStatistics GenerateStatistics(Project project)
+        {
             var releases = new List<Release>();
             foreach (var provider in runnerConfiguration.statsProviders)
             {
@@ -39,7 +43,7 @@ namespace ReleaseStats
                 releases.AddRange(providerResult);
             }
 
-            var result = new ReleaseStatistics(new Project(project));
+            var result = new ReleaseStatistics(project);
             
             result.Releases.AddRange(releases.OrderByDescending(r => r.Version));
           
@@ -57,6 +61,11 @@ namespace ReleaseStats
                 projects.AddRange(provider.FindMatching(filter));    
             }
 
+            foreach (var project in projects)
+            {
+                Console.Out.WriteLine("Processing stats for: " + project.Name);
+                project.ReleaseStatistics = GenerateStatistics(project);
+            }
 
             //arrange the projects into sub projects
             return ProjectHierarchyClassifier.Classify(projects);

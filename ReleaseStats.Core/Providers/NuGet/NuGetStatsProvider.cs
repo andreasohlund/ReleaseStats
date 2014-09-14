@@ -8,18 +8,18 @@
 
     public class NuGetStatsProvider : IStatsProvider
     {
-        public IEnumerable<Release> FetchStats(string project)
+        public IEnumerable<Release> FetchStats(Project project)
         {
             var releases = new List<RemoteNuget>();
 
             var page = 1;
-            var results = loadLatestFeed(project, page);
+            var results = loadLatestFeed(project.Name, page);
 
             releases.AddRange(results);
             while (results.Count() == 40)
             {
                 page++;
-                results = loadLatestFeed(project, page);
+                results = loadLatestFeed(project.Name, page);
                 releases.AddRange(results);
             }
 

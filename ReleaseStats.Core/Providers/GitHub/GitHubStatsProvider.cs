@@ -16,10 +16,10 @@
             client = GitHubClientBuilder.Build();
         }
 
-        public IEnumerable<Release> FetchStats(string project)
+        public IEnumerable<Release> FetchStats(Project project)
         {
             var releasesClient = client.Release;
-            var releases = releasesClient.GetAll(organization, project).Result;
+            var releases = releasesClient.GetAll(organization, project.Name).Result;
 
             foreach (var ghRelease in releases)
             {
@@ -44,6 +44,12 @@
                 {
                     return false;
                 }
+
+                if (ghRelease.Prerelease)
+                {
+                    return false;
+                }
+
 
                 var versionString = ghRelease.TagName;
 

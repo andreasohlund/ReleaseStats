@@ -2,7 +2,6 @@ namespace ReleaseStats
 {
     using System.Collections.Generic;
     using ReleaseStats.PropertyEnrichers;
-    using ReleaseStats.Providers.GitHub;
     using ReleaseStats.Validators;
 
     public class RunnerConfiguration
