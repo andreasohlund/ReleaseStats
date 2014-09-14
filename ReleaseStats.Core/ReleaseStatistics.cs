@@ -12,5 +12,6 @@
 
         public List<Release> Releases { get; private set; }
         public Project Project { get; private set; }
+
     }
 }

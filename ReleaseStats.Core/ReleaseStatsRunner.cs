@@ -21,7 +21,7 @@ namespace ReleaseStats
         public ReleaseStatistics GenerateStatistics(string project)
         {
             var releases = new List<Release>();
-            foreach (var provider in runnerConfiguration.providers)
+            foreach (var provider in runnerConfiguration.statsProviders)
             {
                 var providerResult = provider.FetchStats(project).ToList();
 
@@ -48,9 +48,18 @@ namespace ReleaseStats
             return result;
         }
 
-        public IEnumerable<ReleaseStatistics> GenerateMultiple(string filter)
+        public IEnumerable<Project> GenerateMultiple(string filter)
         {
-            yield return GenerateStatistics("NServiceBus");
+            var projects = new List<Project>();
+
+            foreach (var provider in runnerConfiguration.projectProviders)
+            {
+                projects.AddRange(provider.FindMatching(filter));    
+            }
+
+
+            //arrange the projects into sub projects
+            return ProjectHierarchyClassifier.Classify(projects);
         }
     }
 }

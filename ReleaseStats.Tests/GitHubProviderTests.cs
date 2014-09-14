@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
 using ReleaseStats.Providers.GitHub;
@@ -26,7 +28,7 @@ public class GitHubProviderTests
     }
 
     [Test]
-    public void ListAllNServiceBusRelatedProjects()
+    public void ListProjectsAndSubProjects()
     {
         var config = RunnerConfiguration.Default;
 
@@ -35,10 +37,29 @@ public class GitHubProviderTests
 
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
-            var result = releaseStatsRunner.GenerateMultiple("NServiceBus*");
-            var foundProjects = result.Select(r => r.Project.Name).ToList();
-           
-            Assert.Contains("NServiceBus", foundProjects);
+            var result = releaseStatsRunner.GenerateMultiple("*");
+
+            var project = result.Single(p=>p.Name == "NServiceBus");
+
+            Assert.AreEqual("NServiceBus", project.Name);
+
+            Assert.Contains("NServiceBus.RabbitMQ", project.Subprojects.Select(p=>p.Name).ToList());
+
+            PrintProjects(result);
+        }
+    }
+
+    void PrintProjects(IEnumerable<Project> projects)
+    {
+        foreach (var project in projects)
+        {
+            Console.Out.WriteLine("{0} - ({1} subprojects)",project.Name,project.Subprojects.Count());
+
+            foreach (var subproject in project.Subprojects)
+            {
+                Console.Out.WriteLine("\t{0}", subproject.Name);
+            }
+            Console.Out.WriteLine(Environment.NewLine);
         }
     }
 }

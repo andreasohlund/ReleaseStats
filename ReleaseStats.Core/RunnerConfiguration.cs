@@ -7,15 +7,10 @@ namespace ReleaseStats
 
     public class RunnerConfiguration
     {
-        internal List<IStatsProvider> providers = new List<IStatsProvider>();
-        internal List<PropertyEnricher> PropertyEnrichers = new List<PropertyEnricher>();
-        internal List<IProviderValidator> providerValidators = new List<IProviderValidator>();
-
-
-        internal List<IReleaseCleaner> releaseCleaners = new List<IReleaseCleaner>(); 
+     
         public void AddStatsProvider(IStatsProvider statsProvider)
         {
-            providers.Add(statsProvider);
+            statsProviders.Add(statsProvider);
         }
         public void AddProviderValidator(IProviderValidator validator)
         {
@@ -48,7 +43,16 @@ namespace ReleaseStats
 
         public void AddProjectProvider(IListProjects listProjectsProvider)
         {
-            
+            projectProviders.Add(listProjectsProvider);
         }
+
+        internal List<IStatsProvider> statsProviders = new List<IStatsProvider>();
+        internal List<IListProjects> projectProviders = new List<IListProjects>();
+
+        internal List<PropertyEnricher> PropertyEnrichers = new List<PropertyEnricher>();
+        internal List<IProviderValidator> providerValidators = new List<IProviderValidator>();
+
+
+        internal List<IReleaseCleaner> releaseCleaners = new List<IReleaseCleaner>(); 
     }
 }

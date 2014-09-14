@@ -50,6 +50,7 @@
     <Compile Include="DuplicateVersionsValidatorTests.cs" />
     <Compile Include="GitHubProviderTests.cs" />
     <Compile Include="NuGetProviderTests.cs" />
+    <Compile Include="ProjectHierarchyClassifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseHierarchyEnricherTests.cs" />
     <Compile Include="ReleasesOverTimeReport.cs" />
