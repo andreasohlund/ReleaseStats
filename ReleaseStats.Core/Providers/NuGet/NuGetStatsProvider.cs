@@ -1,5 +1,6 @@
 ﻿namespace ReleaseStats.Providers.NuGet
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -35,8 +36,17 @@
         {
             release = new Release(new SemVer(nuGetRelease.Version));
 
-            release.Properties.Add(new ReleaseDate(nuGetRelease.PublishedAt));
+         
+            if(nuGetRelease.PublishedAt > DateTimeOffset.Parse("1901-01-01"))
+            {
+                release.Properties.Add(new ReleaseDate(nuGetRelease.PublishedAt));
 
+            }
+            else
+            {
+                Console.Out.WriteLine(release + " has an invalid release date (probably due to it being unlisted from nuget.org)");
+            }
+     
            return true;
         }
 
@@ -55,6 +65,7 @@
 
             var document = new XmlDocument();
             document.LoadXml(text);
+
             return document;
         }
 

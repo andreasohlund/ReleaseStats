@@ -54,6 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseHierarchyEnricherTests.cs" />
     <Compile Include="ReleasesOverTimeReport.cs" />
+    <Compile Include="Reports\NServiceBus_ReleasesPerMonth.cs" />
+    <Compile Include="Reports\ReportFixture.cs" />
     <Compile Include="SimpleJson.cs" />
   </ItemGroup>
   <ItemGroup>

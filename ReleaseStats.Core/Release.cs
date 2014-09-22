@@ -74,5 +74,10 @@ namespace ReleaseStats
         {
             return Version.ToString();
         }
+
+        public bool HasProperty<T>()
+        {
+            return Properties.Any(p => p.GetType() == typeof(T));   
+        }
     }
 }

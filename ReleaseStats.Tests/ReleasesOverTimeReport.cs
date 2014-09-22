@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
-using ReleaseStats.Cleaners;
 using ReleaseStats.Providers.NuGet;
 using ReleaseStats.ReleaseProperties;
 using ReleaseStats.Tests;
@@ -23,8 +22,7 @@ public class ReleasesOverTimeReport
         var config = RunnerConfiguration.Default;
 
         config.AddStatsProvider(new NuGetStatsProvider());
-        config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
-
+    
         var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config);
 
         var result = releaseStatsRunner.GenerateStatistics(project);

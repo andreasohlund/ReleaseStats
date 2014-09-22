@@ -1,6 +1,7 @@
 namespace ReleaseStats
 {
     using System.Collections.Generic;
+    using ReleaseStats.Cleaners;
     using ReleaseStats.PropertyEnrichers;
     using ReleaseStats.Validators;
 
@@ -30,6 +31,8 @@ namespace ReleaseStats
                 config.AddProviderValidator(new DuplicateVersionsValidator());
 
                 config.AddEnricher(new ReleaseHierarchyEnricher());
+                config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
+
 
                 return config;
             }

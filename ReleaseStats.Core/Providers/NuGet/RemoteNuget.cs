@@ -8,10 +8,10 @@ namespace ReleaseStats.Providers.NuGet
         public readonly string Name;
         public readonly string Version;
 
-        public readonly DateTime PublishedAt;
+        public readonly DateTimeOffset PublishedAt;
 
        
-        public RemoteNuget(string id, string name, string version, DateTime publishedAt)
+        public RemoteNuget(string id, string name, string version, DateTimeOffset publishedAt)
         {
             Id = id;
             Name = name;

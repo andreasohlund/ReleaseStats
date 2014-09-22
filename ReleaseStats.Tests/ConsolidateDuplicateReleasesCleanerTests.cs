@@ -36,16 +36,12 @@ public class ConsolidateDuplicateReleasesCleanerTests
     }
 
     [Test]
-    public void ShouldNotPickMinValuesForReleaseDate()
+    public void ShouldHandleMissingReleaseDateForDuplicate()
     {
-        var release = new Release("1.0.0");
-
-        release.Properties.Add(new ReleaseDate(DateTimeOffset.MinValue));
-
         var releases = new List<Release>
         {
             CreateRelease("1.0.0","2014-01-01"),
-               release
+                new Release("1.0.0")
         };
 
 
@@ -55,6 +51,23 @@ public class ConsolidateDuplicateReleasesCleanerTests
 
 
         Assert.AreEqual(result.Single(r => r.Version == "1.0.0").Property<ReleaseDate>().ReleasedAt, DateTimeOffset.Parse("2014-01-01"));
+
+    }
+    [Test]
+    public void ShouldHandleMissingReleaseDateForBoth()
+    {
+        var releases = new List<Release>
+        {
+                new Release("1.0.0"),new Release("1.0.0")
+        };
+
+
+        var validator = new ConsolidateDuplicateReleasesCleaner();
+
+        var result = validator.Clean(releases);
+
+
+        Assert.NotNull(result.Single(r => r.Version == "1.0.0"));
 
     }
 

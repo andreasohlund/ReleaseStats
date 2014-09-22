@@ -27,4 +27,22 @@ public class NuGetProviderTests
 
         }
     }
+
+    [Test]
+    public void ReturnAllNServiceBusAzureReleases()
+    {
+        var config = RunnerConfiguration.Default;
+
+        config.AddStatsProvider(new NuGetStatsProvider());
+    
+        using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
+        {
+            var result = releaseStatsRunner.GenerateStatistics("NServiceBus.Azure");
+
+            result.Releases.Where(r => !r.Version.IsPatchRelease)
+     .ToList()
+     .ForEach(ConsoleFormatter.PrintRelease);
+
+        }
+    }
 }
