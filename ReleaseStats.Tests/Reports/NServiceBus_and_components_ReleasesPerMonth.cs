@@ -6,7 +6,7 @@
     using ReleaseStats.ReleaseProperties;
 
     [TestFixture, Explicit("Long running")]
-    public class NServiceBus_ReleasesPerMonth:ReportFixture
+    public class NServiceBus_and_components_ReleasesPerMonth:ReportFixture
     {
 
         [Test]
@@ -18,7 +18,7 @@
             var result = releaseStatsRunner.GenerateMultiple(project+"*");
 
 
-            var reportData = result.SelectMany(p=>p.ReleaseStatistics.Releases).Select(r => new Datapoint
+            var reportData = result.First().AllReleasesForHierarchy.Where(r=>r.HasProperty<ReleaseDate>()).Select(r => new Datapoint
             {
                 Period = r.Property<ReleaseDate>().ReleasedAt.ToString("yyyy-MM"),
                 NumberOfReleases = 1

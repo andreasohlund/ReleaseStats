@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using ReleaseStats;
 using ReleaseStats.Providers.GitHub;
+using ReleaseStats.Providers.NuGet;
 
 [TestFixture, Explicit("Long running")]
 public class GitHubProviderTests
@@ -13,13 +14,16 @@ public class GitHubProviderTests
     {
         var config = RunnerConfiguration.Default;
 
+        config.AddStatsProvider(new NuGetStatsProvider());
         config.AddStatsProvider(new GitHubStatsProvider("Particular"));
      
         using (var releaseStatsRunner = ReleaseStatsFactory.CreateRunner(config))
         {
             var result = releaseStatsRunner.GenerateStatistics("NServiceBus");
 
-            Assert.Contains(new Release("4.6.3"), result.Releases);
+            var release463 = result.Releases.Single(r => r == new Release("5.0.1"));
+
+            Assert.AreEqual("https://github.com/Particular/NServiceBus/releases/tag/4.6.3", release463.Property<LinkToReleaseNotes>().Url);
 
             result.Releases.Where(r=>!r.Version.IsPatchRelease)
                 .ToList()
@@ -64,4 +68,3 @@ public class GitHubProviderTests
         }
     }
 }
-

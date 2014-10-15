@@ -46,6 +46,8 @@
     <Compile Include="Cleaners\ConsolidateDuplicateReleasesCleaner.cs" />
     <Compile Include="IReleaseCleaner.cs" />
     <Compile Include="ProjectHierarchyClassifier.cs" />
+    <Compile Include="ReleaseProperties\LinkToReleaseNotes.cs" />
+    <Compile Include="ReleaseProperties\BelongsToProject.cs" />
     <Compile Include="PropertyEnrichers\PropertyEnricher.cs" />
     <Compile Include="PropertyEnrichers\ReleaseHierarchyEnricher.cs" />
     <Compile Include="Providers\GitHub\GitHubClientBuilder.cs" />

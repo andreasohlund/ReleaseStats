@@ -57,6 +57,8 @@
 
                 release.Properties.Add(new ReleaseDate(ghRelease.PublishedAt.Value));
 
+                release.Properties.Add(new LinkToReleaseNotes(ghRelease.HtmlUrl));
+
                 return true;
 
             }

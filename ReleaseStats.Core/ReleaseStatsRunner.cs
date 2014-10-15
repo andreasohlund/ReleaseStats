@@ -29,19 +29,25 @@ namespace ReleaseStats
             {
                 var providerResult = provider.FetchStats(project).ToList();
 
-                foreach (var cleaner in runnerConfiguration.releaseCleaners)
-                {
-                    providerResult = cleaner.Clean(providerResult).ToList();
-                }
+                providerResult.ForEach(r => r.Properties.Add(new BelongsToProject(project)));
 
-                var validationErrors = runnerConfiguration.providerValidators.SelectMany(v=>v.Validate(providerResult)).ToList();
 
-                if (validationErrors.Any())
-                {
-                    throw new Exception("Validation errors found for provider: " + provider.GetType().Name + Environment.NewLine + string.Join(Environment.NewLine,validationErrors));
-                }
+           
                 releases.AddRange(providerResult);
             }
+
+            foreach (var cleaner in runnerConfiguration.releaseCleaners)
+            {
+                releases = cleaner.Clean(releases).ToList();
+            }
+
+            var validationErrors = runnerConfiguration.providerValidators.SelectMany(v => v.Validate(releases)).ToList();
+
+            if (validationErrors.Any())
+            {
+                throw new Exception("Validation errors: " + Environment.NewLine + string.Join(Environment.NewLine, validationErrors));
+            }
+             
 
             var result = new ReleaseStatistics(project);
             
@@ -49,16 +55,21 @@ namespace ReleaseStats
           
             runnerConfiguration.PropertyEnrichers.ForEach(e => e.Process(result));
 
+
+
             return result;
         }
 
-        public IEnumerable<Project> GenerateMultiple(string filter)
+        public IEnumerable<Project> GenerateMultiple(params string[] filters)
         {
             var projects = new List<Project>();
 
-            foreach (var provider in runnerConfiguration.projectProviders)
+            foreach (var filter in filters)
             {
-                projects.AddRange(provider.FindMatching(filter));    
+                foreach (var provider in runnerConfiguration.projectProviders)
+                {
+                    projects.AddRange(provider.FindMatching(filter));
+                }                
             }
 
             foreach (var project in projects)

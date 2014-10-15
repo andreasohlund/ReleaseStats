@@ -10,7 +10,7 @@ using ReleaseStats.ReleaseProperties;
 public class ConsolidateDuplicateReleasesCleanerTests
 {
     [Test]
-    public void ShouldConsolidateDuplicatesBySelectingTheFirstOne()
+    public void ShouldConsolidateDuplicatesBySelectingTheOldestOne()
     {
         var releases = new List<Release>
         {
@@ -68,6 +68,34 @@ public class ConsolidateDuplicateReleasesCleanerTests
 
 
         Assert.NotNull(result.Single(r => r.Version == "1.0.0"));
+
+    }
+
+    [Test]
+    public void ShouldMergeProperties()
+    {
+        var duplicate1 = new Release("1.0.0");
+
+        duplicate1.Properties.Add(new LinkToReleaseNotes("fdsfsd"));
+        duplicate1.Properties.Add(new ReleaseDate(DateTimeOffset.Now));
+
+        var duplicate2 = new Release("1.0.0");
+
+        duplicate2.Properties.Add(new BelongsToProject(new Project("test")));
+        
+        var releases = new List<Release>
+        {
+               duplicate1,duplicate2
+        };
+
+
+        var validator = new ConsolidateDuplicateReleasesCleaner();
+
+        var result = validator.Clean(releases).Single(r => r.Version == "1.0.0");
+
+
+        Assert.True(result.HasProperty<LinkToReleaseNotes>());
+        Assert.True(result.HasProperty<BelongsToProject>());
 
     }
 

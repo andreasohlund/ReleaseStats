@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.IO;
     using NUnit.Framework;
+    using ReleaseStats.Cleaners;
     using ReleaseStats.Providers.GitHub;
     using ReleaseStats.Providers.NuGet;
+    using ReleaseStats.Validators;
 
     public class ReportFixture
     {
@@ -14,9 +16,14 @@
         [SetUp]
         public void SetUp()
         {
-            var config = RunnerConfiguration.Default;
+            var config = new RunnerConfiguration();
+
+            config.AddProviderValidator(new DuplicateVersionsValidator());
+
+            config.AddCleaner(new ConsolidateDuplicateReleasesCleaner());
 
             config.AddStatsProvider(new NuGetStatsProvider());
+            config.AddStatsProvider(new GitHubStatsProvider("Particular"));
 
             config.AddProjectProvider(new GitHubProjectProvider("Particular"));
             

@@ -2,6 +2,7 @@
 
 namespace ReleaseStats.Cleaners
 {
+    using System;
     using System.Linq;
     using ReleaseStats.ReleaseProperties;
 
@@ -17,17 +18,18 @@ namespace ReleaseStats.Cleaners
 
             foreach (var toBeConsolidated in gropedByVersion.Where(g => g.Count() > 1))
             {
-                var findLastReleaseDate = toBeConsolidated.Where(r => r.HasProperty<ReleaseDate>())
-                    .OrderBy(r => r.Property<ReleaseDate>().ReleasedAt)
-                    .FirstOrDefault();
+                  var consolidated = toBeConsolidated
+                      .OrderBy(r =>r.HasProperty<ReleaseDate>() ? r.Property<ReleaseDate>().ReleasedAt : DateTimeOffset.MinValue)
+                      .First();
 
-                if (findLastReleaseDate!=null)
+                foreach (var property in toBeConsolidated.SelectMany(r=>r.Properties))
                 {
-                    alreadyOkOnes.Add(findLastReleaseDate);
-                    continue;
+                    if (!consolidated.HasProperty(property.GetType()))
+                    {
+                        consolidated.Properties.Add(property);
+                    }
                 }
-
-                alreadyOkOnes.Add(toBeConsolidated.Last());
+                alreadyOkOnes.Add(consolidated);
             }
             
 

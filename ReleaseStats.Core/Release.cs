@@ -67,7 +67,14 @@ namespace ReleaseStats
 
         public T Property<T>() where T:ReleaseProperty
         {
-            return (T)Properties.Single(p => p.GetType() == typeof(T));
+            var property = Properties.SingleOrDefault(p => p.GetType() == typeof(T));
+
+            if (property == null)
+            {
+                throw new Exception("Can't find a property: " + typeof(T).Name);
+            }
+
+            return (T)property;
         }
 
         public override string ToString()
@@ -75,9 +82,15 @@ namespace ReleaseStats
             return Version.ToString();
         }
 
-        public bool HasProperty<T>()
+        public bool HasProperty<T>() where T : ReleaseProperty
         {
-            return Properties.Any(p => p.GetType() == typeof(T));   
+            return HasProperty(typeof(T));
+        }
+
+
+        public bool HasProperty(Type propertyType)
+        {
+            return Properties.Any(p => p.GetType() == propertyType);
         }
     }
 }
