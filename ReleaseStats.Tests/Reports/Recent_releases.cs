@@ -18,9 +18,9 @@ namespace ReleaseStats.Tests.Reports
             var reportData = result.SelectMany(p=>p.AllReleasesForHierarchy).ToList();
 
 
-            Console.Out.WriteLine("---------------------- Releases last 7 days --------------------------------");    
-            
-            foreach (var release in reportData.Where(r=>r.HasProperty<ReleaseDate>()).OrderByDescending(r=>r.Property<ReleaseDate>().ReleasedAt))
+            Console.Out.WriteLine("---------------------- Releases last 7 days --------------------------------");
+
+            foreach (var release in reportData.Where(r => r.HasProperty<ReleaseDate>() && r.HasProperty<LinkToReleaseNotes>()).OrderByDescending(r => r.Property<ReleaseDate>().ReleasedAt))
             {
                 var releaseDate = release.Property<ReleaseDate>().ReleasedAt;
 
@@ -34,7 +34,7 @@ namespace ReleaseStats.Tests.Reports
                         releaseNotes = release.Property<LinkToReleaseNotes>().Url;
                     }
 
-                    Console.Out.WriteLine("{0} - {1} ({2})",release.Property<BelongsToProject>().Project.Name,release.Version,releaseNotes);    
+                    Console.Out.WriteLine("[{0} - {1}]({2})",release.Property<BelongsToProject>().Project.Name,release.Version,releaseNotes);    
                 }
                 
             }
