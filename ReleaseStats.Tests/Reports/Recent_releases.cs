@@ -34,7 +34,7 @@ namespace ReleaseStats.Tests.Reports
                         releaseNotes = release.Property<LinkToReleaseNotes>().Url;
                     }
 
-                    Console.Out.WriteLine("[{0} - {1}]({2})",release.Property<BelongsToProject>().Project.Name,release.Version,releaseNotes);    
+                    Console.Out.WriteLine("* [{0} - {1}]({2})",release.Property<BelongsToProject>().Project.Name,release.Version,releaseNotes);    
                 }
                 
             }
