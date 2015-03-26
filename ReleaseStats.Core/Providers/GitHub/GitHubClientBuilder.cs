@@ -9,7 +9,7 @@
         {
             var credentialStore = new InMemoryCredentialStore(GitHubHelper.Credentials);
 
-            var httpClient = new HttpClientAdapter(GitHubHelper.Proxy);
+            var httpClient = new HttpClientAdapter(null);
 
             var connection = new Connection(
                 new ProductHeaderValue("ReleaseStats"),
